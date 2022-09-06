@@ -19,7 +19,8 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.apache.kafka:kafka-clients'
 	implementation 'org.apache.kafka:kafka-streams'
 
 	compileOnly 'org.projectlombok:lombok'
@@ -27,7 +28,10 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	testImplementation 'org.springframework.kafka:spring-kafka'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	testImplementation 'org.apache.kafka:kafka-streams-test-utils'
 }
 
 tasks.named('test') {
