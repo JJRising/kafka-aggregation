@@ -2,10 +2,10 @@ plugins {
 	id 'org.springframework.boot' version '2.7.3'
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 	id 'java'
+	id 'com.palantir.docker' version '0.34.0'
 }
 
 group = 'com.nuvalence'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
@@ -36,4 +36,11 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+docker {
+	dependsOn bootJar
+	name "${rootProject.name}/${project.name}"
+	dockerfile file("${project.projectDir}/src/main/docker/Dockerfile")
+	files tasks.bootJar.outputs, 'aggregation.jar'
 }
