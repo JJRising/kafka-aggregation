@@ -1,5 +1,25 @@
 
 aggregation:
+  application:
+    config:
+      topology:
+        inputTopicName: intopic
+        outputTopicName: outtopic
+      kafka:
+        properties:
+          "[application.id]": "aggregator"
+          "[bootstrap.servers]": "kafka-aggregation-0"
   image:
     repository: ghcr.io/jjrising/kafka-aggregation/aggregation
     tag: latest
+  port: 8080
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 1
+      memory: 1G
+    requests:
+      cpu: 1
+      memory: 1G
+  serviceAccount:
+    annotations: {}
