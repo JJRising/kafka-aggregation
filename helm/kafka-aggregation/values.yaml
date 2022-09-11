@@ -1,0 +1,5 @@
+
+aggregation:
+  image:
+    repository: ghcr.io/jjrising/kafka-aggregation/aggregation
+    tag: latest
