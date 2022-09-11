@@ -1,0 +1,4 @@
+gcloud container --project $1 clusters create-auto "kafka-aggregation" --region "us-east1" \
+--release-channel "regular" --network "projects/$1/global/networks/default" \
+--subnetwork "projects/$1/regions/us-east1/subnetworks/default" --cluster-ipv4-cidr "/17" \
+--services-ipv4-cidr "/22"
