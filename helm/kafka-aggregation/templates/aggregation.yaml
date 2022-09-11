@@ -15,23 +15,13 @@ spec:
       labels:
         {{- include "kafka-aggregation.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ include "kafka-aggregation.serviceAccountName" . }}
+      serviceAccountName: {{ include "kafka-aggregation.fullname" . }}-aggregation
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
       containers:
         - name: aggregation
           image: "{{ .Values.aggregation.image.repository }}:{{ .Values.aggregation.image.tag}}"
           imagePullPolicy: Always
-          ports:
-            - name: health
-              containerPort: 8081
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /actuator/liveness
-              port: 8081
-          readinessProbe:
-            httpGet:
-              path: /actuator/readiness
-              port: 8081
           resources:
             {{- toYaml .Values.aggregation.resources | nindent 12 }}
 ---
@@ -54,10 +44,22 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ include "kafka-aggregation.serviceAccountName" . }}
+  name: {{ include "kafka-aggregation.fullname" . }}-aggregation
   labels:
     {{- include "kafka-aggregation.labels" . | nindent 4 }}
-  {{- with .Values.serviceAccount.annotations }}
+  {{- with .Values.aggregation.serviceAccount.annotations }}
   annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kafka-aggregation.fullname" . }}-aggregation
+  labels:
+    {{- include "kafka-aggregation.labels" . | nindent 4 }}
+data:
+  {{- with .Values.aggregation.application.config }}
+  application.yaml: |
     {{- toYaml . | nindent 4 }}
   {{- end }}
