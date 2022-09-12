@@ -18,7 +18,20 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('springCloudVersion', "2021.0.4")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
 dependencies {
+//	implementation 'org.springframework.cloud:spring-cloud-starter'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-config'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.apache.kafka:kafka-clients'
 	implementation 'org.apache.kafka:kafka-streams'

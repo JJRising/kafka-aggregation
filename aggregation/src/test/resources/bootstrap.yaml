@@ -1,0 +1,15 @@
+topology:
+  inputTopicName: intopic
+  outputTopicName: outtopic
+
+kafka:
+  properties:
+    "[application.id]": "aggregator"
+    "[bootstrap.servers]": ${spring.embedded.kafka.brokers}
+
+spring:
+  cloud:
+    kubernetes:
+      enabled: false
+      config:
+        enabled: false
