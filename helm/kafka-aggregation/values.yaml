@@ -8,7 +8,7 @@ aggregation:
       kafka:
         properties:
           "[application.id]": "aggregator"
-          "[bootstrap.servers]": "kafka-aggregation-0"
+          "[bootstrap.servers]": "kafka-aggregation.default.svc.cluster.local:9092"
   image:
     repository: ghcr.io/jjrising/kafka-aggregation/aggregation
     tag: latest
