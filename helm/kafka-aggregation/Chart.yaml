@@ -7,6 +7,12 @@ dependencies:
   - name: kafka
     version: "^18.x"
     repository: "https://charts.bitnami.com/bitnami"
+  - name: prometheus
+    version: "15.12.0"
+    repository: "https://prometheus-community.github.io/helm-charts"
+  - name: grafana
+    version: "6.38.1"
+    repository: "https://grafana.github.io/helm-charts"
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.

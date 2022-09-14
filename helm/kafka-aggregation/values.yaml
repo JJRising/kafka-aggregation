@@ -24,6 +24,8 @@ aggregation:
   serviceAccount:
     annotations: {}
 
+#grafana:
+
 kafka:
   provisioning:
     enabled: true
@@ -35,3 +37,11 @@ kafka:
       - name: outtopic
         partitions: 12
         replicationFactor: 1
+
+prometheus:
+  alertmanager:
+    enabled: false
+  nodeExporter:
+    enabled: false
+  pushgateway:
+    enabled: false
