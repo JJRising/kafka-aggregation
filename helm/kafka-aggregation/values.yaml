@@ -23,3 +23,15 @@ aggregation:
       memory: 1G
   serviceAccount:
     annotations: {}
+
+kafka:
+  provisioning:
+    enabled: true
+    numPartitions: 12
+    topics:
+      - name: intopic
+        partitions: 12
+        replicationFactor: 1
+      - name: outtopic
+        partitions: 12
+        replicationFactor: 1
