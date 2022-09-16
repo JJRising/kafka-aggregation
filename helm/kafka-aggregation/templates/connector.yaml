@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "kafka-aggregation.fullname" . }}-connect
+  labels:
+  {{- include "kafka-aggregation.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.connector.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "kafka-aggregation.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "kafka-aggregation.fullname" . }}-connect
+  template:
+    metadata:
+      labels:
+        {{- include "kafka-aggregation.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
+      containers:
+        - name: connector
+          image: "{{ .Values.connector.image.repository }}:{{ .Values.connector.image.tag}}"
+          imagePullPolicy: Always
+          ports:
+            - name: kafka-connect
+              containerPort: {{ .Values.connector.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.connector.resources | nindent 12 }}
+          env:
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: "kafka-aggregation-headless:9092"
+            - name: CONNECT_GROUP_ID
+              value: {{ .Values.connector.groupId }}
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: {{ include "kafka-aggregation.fullname" . }}-config
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: {{ include "kafka-aggregation.fullname" . }}-offset
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: {{ include "kafka-aggregation.fullname" . }}-status
+            - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_HEAP_OPTS
+              value: "{{ .Values.connector.heapOptions }}"
+            - name: CONNECT_KEY_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_VALUE_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kafka-aggregation.fullname" . }}-connect
+  labels:
+    {{- include "kafka-aggregation.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.connector.port }}
+      targetPort: http
+      protocol: TCP
+      name: kafka-connect
+  selector:
+    {{- include "kafka-aggregation.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "kafka-aggregation.fullname" . }}-connect
+  labels:
+  {{- include "kafka-aggregation.labels" . | nindent 4 }}
+  {{- with .Values.aggregation.serviceAccount.annotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}

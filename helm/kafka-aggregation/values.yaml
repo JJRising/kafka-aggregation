@@ -24,6 +24,22 @@ aggregation:
   serviceAccount:
     annotations: {}
 
+connector:
+  image:
+    repository: ghcr.io/jjrising/kafka-aggregation/connector
+    tag: latest
+  port: 8083
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 1
+      memory: 1G
+    requests:
+      cpu: 1
+      memory: 1G
+  groupId: aggregation-connector
+  heapOptions: "-Xms512M -Xmx512M"
+
 #grafana:
 
 kafka:
