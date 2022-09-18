@@ -1,2 +1,3 @@
 rootProject.name = 'kafka-aggregation'
 include 'aggregation'
+include 'generator'

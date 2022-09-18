@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    kubernetes:
+      enabled: false
+      config:
+        enabled: false
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+  main:
+    allow-bean-definition-overriding: true
+
