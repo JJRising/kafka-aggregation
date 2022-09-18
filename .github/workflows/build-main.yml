@@ -53,7 +53,7 @@ jobs:
           docker push ghcr.io/${{ secrets.ACTIONS_GITHUB_USERNAME }}/kafka-aggregation/aggregation:${{ steps.semver.outputs.new_version }}
 
           docker tag kafka-aggregation/generator:latest ghcr.io/${{ secrets.ACTIONS_GITHUB_USERNAME }}/kafka-aggregation/generator:latest
-          docker push ghcr.io/${{ secrets.ACTIONS_GITHUB_USERNAME }}/kafka-aggregation/aggregation:latest
+          docker push ghcr.io/${{ secrets.ACTIONS_GITHUB_USERNAME }}/kafka-aggregation/generator:latest
           docker tag kafka-aggregation/generator:latest ghcr.io/${{ secrets.ACTIONS_GITHUB_USERNAME }}/kafka-aggregation/generator:${{ steps.semver.outputs.new_version }}
           docker push ghcr.io/${{ secrets.ACTIONS_GITHUB_USERNAME }}/kafka-aggregation/generator:${{ steps.semver.outputs.new_version }}
 
