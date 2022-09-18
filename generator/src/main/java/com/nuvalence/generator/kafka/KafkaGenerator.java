@@ -1,5 +1,6 @@
 package com.nuvalence.generator.kafka;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -9,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class KafkaGenerator {
 
     private final KafkaTemplate<Integer, String> kafkaTemplate;
@@ -24,6 +26,7 @@ public class KafkaGenerator {
 
     @Scheduled(initialDelay = 1000, fixedRate = 5000)
     public void publishRecord() {
+        log.info("Publishing Hello World message");
         kafkaTemplate.send(new ProducerRecord<>(topic, 1, "Hello, World!"));
     }
 }
