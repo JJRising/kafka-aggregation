@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
 
       - name: Build version ${{ steps.semver.outputs.new_version }}
-        run: ./gradlew -Pversion=${{ steps.semver.outputs.new_version }} docker
+        run: ./gradlew -Pversion=${{ steps.semver.outputs.new_version }} docker --debug --stacktrace
         working-directory: .
 
       - name: Publish to GitHub Container Registry
