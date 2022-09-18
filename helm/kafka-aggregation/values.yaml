@@ -40,6 +40,29 @@ connector:
   groupId: aggregation-connector
   heapOptions: "-Xms512M -Xmx512M"
 
+generator:
+  application:
+    config:
+      spring:
+        kafka:
+          bootstrap-servers: "kafka-aggregation.default.svc.cluster.local:9092"
+          producer:
+            key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+  image:
+    repository: ghcr.io/jjrising/kafka-aggregation/generator
+    tag: latest
+  port: 8080
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 1
+      memory: 1G
+    requests:
+      cpu: 1
+      memory: 1G
+  serviceAccount:
+    annotations: {}
+
 #grafana:
 
 kafka:
