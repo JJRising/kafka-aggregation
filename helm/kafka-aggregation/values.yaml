@@ -48,6 +48,7 @@ generator:
           bootstrap-servers: "kafka-aggregation.default.svc.cluster.local:9092"
           producer:
             key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
   image:
     repository: ghcr.io/jjrising/kafka-aggregation/generator
     tag: latest

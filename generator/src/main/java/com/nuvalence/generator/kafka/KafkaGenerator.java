@@ -1,5 +1,6 @@
 package com.nuvalence.generator.kafka;
 
+import com.nuvalence.generator.model.Book;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class KafkaGenerator {
 
-    private final KafkaTemplate<Integer, String> kafkaTemplate;
+    private final KafkaTemplate<Integer, Object> kafkaTemplate;
 
     @Value("${kafka-aggregation.topic:aggregated-states}")
     private String topic;
@@ -29,6 +30,6 @@ public class KafkaGenerator {
     @Scheduled(initialDelay = 1000, fixedRate = 5000)
     public void publishRecord() {
         log.info("Publishing Hello World message");
-        kafkaTemplate.send(new ProducerRecord<>(topic, 1, "Hello, World!"));
+        kafkaTemplate.send(new ProducerRecord<>(topic, 1, new Book("Hello, World!")));
     }
 }
