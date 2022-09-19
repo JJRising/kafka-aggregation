@@ -29,6 +29,6 @@ public class KafkaGenerator {
     @Scheduled(initialDelay = 1000, fixedRate = 5000)
     public void publishRecord() {
         log.info("Publishing Hello World message");
-        kafkaTemplate.send(new ProducerRecord<>(topic, 1, "Hello, World!"));
+        kafkaTemplate.send(new ProducerRecord<>(topic, 1, "{\"title\": \"Hello, World!\""));
     }
 }
