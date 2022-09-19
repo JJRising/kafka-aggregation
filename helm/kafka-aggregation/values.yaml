@@ -8,7 +8,7 @@ aggregation:
       kafka:
         properties:
           "[application.id]": "aggregator"
-          "[bootstrap.servers]": "kafka-aggregation.default.svc.cluster.local:9092"
+          "[bootstrap.servers]": "kafka.default.svc.cluster.local:9092"
   image:
     repository: ghcr.io/jjrising/kafka-aggregation/aggregation
     tag: latest
@@ -45,7 +45,7 @@ generator:
     config:
       spring:
         kafka:
-          bootstrap-servers: "kafka-aggregation.default.svc.cluster.local:9092"
+          bootstrap-servers: "kafka.default.svc.cluster.local:9092"
           producer:
             key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
             value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -67,6 +67,7 @@ generator:
 #grafana:
 
 kafka:
+  fullnameOverride: "kafka"
   provisioning:
     enabled: true
     numPartitions: 12

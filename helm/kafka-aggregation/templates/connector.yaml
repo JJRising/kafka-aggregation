@@ -33,7 +33,7 @@ spec:
                 fieldRef:
                   fieldPath: status.podIP
             - name: CONNECT_BOOTSTRAP_SERVERS
-              value: "kafka-aggregation-headless:9092"
+              value: "kafka-headless:9092"
             - name: CONNECT_GROUP_ID
               value: {{ .Values.connector.groupId }}
             - name: CONNECT_CONFIG_STORAGE_TOPIC
