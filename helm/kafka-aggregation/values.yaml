@@ -1,5 +1,6 @@
 
 aggregation:
+  enabled: false
   application:
     config:
       topology:
@@ -25,9 +26,15 @@ aggregation:
     annotations: {}
 
 connector:
+  enabled: false
   image:
     repository: ghcr.io/jjrising/kafka-aggregation/connector
     tag: latest
+  env:
+    - name: CONNECT_KEY_CONVERTER
+      value: "org.apache.kafka.connect.json.JsonConverter"
+    - name: CONNECT_VALUE_CONVERTER
+      value: "org.apache.kafka.connect.json.JsonConverter"
   port: 8083
   replicaCount: 1
   resources:
@@ -41,6 +48,7 @@ connector:
   heapOptions: "-Xms512M -Xmx512M"
 
 generator:
+  enabled: false
   application:
     config:
       spring:
@@ -86,3 +94,11 @@ prometheus:
     enabled: false
   pushgateway:
     enabled: false
+
+schema-registry:
+  kafka:
+    enabled: false
+  fullnameOverride: "schema-registry"
+  externalKafka:
+    brokers:
+      - PLAINTEXT://kafka-headless.default.svc.cluster.local:9092

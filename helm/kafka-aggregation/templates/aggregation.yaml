@@ -1,3 +1,4 @@
+{{if .Values.aggregation.enabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -92,3 +93,4 @@ roleRef:
   kind: Role
   name: {{ include "kafka-aggregation.fullname" . }}-aggregation
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
