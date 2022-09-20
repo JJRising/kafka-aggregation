@@ -1,0 +1,7 @@
+gcloud compute networks create kafka-aggregation-network --project=jgrubb-sandbox --subnet-mode=auto --mtu=1460 \
+--bgp-routing-mode=regional
+
+gcloud compute routers create nat-router --network kafka-aggregation-network --region us-east1
+
+gcloud compute routers nats create nat-config --router-region us-east1 --router nat-router --nat-all-subnet-ip-ranges \
+--auto-allocate-nat-external-ips
