@@ -48,7 +48,7 @@ connector:
   heapOptions: "-Xms512M -Xmx512M"
 
 generator:
-  enabled: false
+  enabled: true
   application:
     config:
       spring:
