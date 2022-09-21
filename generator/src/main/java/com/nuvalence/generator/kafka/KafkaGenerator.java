@@ -26,10 +26,13 @@ public class KafkaGenerator {
     @Value("${kafka-aggregation.topic:aggregated-states}")
     private String topic;
 
+    @Value("${kafka-aggregation.topic:http://schema-registry-headless.default.svc.cluster.local:8081}")
+    private String schemaRegistryUrl;
+
     public KafkaGenerator(KafkaProperties kafkaProperties) {
         Map<String, Object> properties = kafkaProperties.buildProducerProperties();
         properties.put(VALUE_SERIALIZER_CLASS_CONFIG, KafkaJsonSchemaSerializer.class);
-        properties.put("schema.registry.url", "http://schema-registry-headless.default.svc.cluster.local:8081");
+        properties.put("schema.registry.url", schemaRegistryUrl);
         kafkaTemplate = new KafkaTemplate<>(
                 new DefaultKafkaProducerFactory<>(properties));
         kafkaTemplate.setDefaultTopic(topic);
@@ -38,6 +41,6 @@ public class KafkaGenerator {
     @Scheduled(initialDelay = 1000, fixedRate = 5000)
     public void publishRecord() {
         log.info("Publishing Hello World message");
-        kafkaTemplate.send(new ProducerRecord<>(topic, 1, new Book("Hello, World!")));
+        kafkaTemplate.send(new ProducerRecord<>(topic, 1, new Book("Hello, World!", "Tolkien")));
     }
 }
