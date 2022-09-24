@@ -1,6 +1,6 @@
 package com.nuvalence.aggregation.kstream;
 
-import com.nuvalence.aggregation.models.Event;
+import com.nuvalence.aggregation.model.Event;
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.testutil.MockSchemaRegistry;
 import io.confluent.kafka.serializers.json.KafkaJsonSchemaDeserializer;

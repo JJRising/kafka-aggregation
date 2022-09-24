@@ -1,7 +1,7 @@
 package com.nuvalence.aggregation.kstream.processor;
 
-import com.nuvalence.aggregation.models.Aggregation;
-import com.nuvalence.aggregation.models.Event;
+import com.nuvalence.aggregation.model.Aggregation;
+import com.nuvalence.aggregation.model.Event;
 import org.apache.kafka.streams.processor.api.Processor;
 import org.apache.kafka.streams.processor.api.ProcessorContext;
 import org.apache.kafka.streams.processor.api.Record;
@@ -23,7 +23,7 @@ public class LostTransformer implements Processor<UUID, Aggregation, UUID, Event
         context.forward(
                 new Record<>(
                         record.key(),
-                        record.value().getEvents().get(0),
+                        record.value().getEvents(0),
                         record.timestamp(),
                         record.headers()));
     }

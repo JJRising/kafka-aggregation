@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package aggregation;
+
+option java_multiple_files = true;
+option java_package = "com.nuvalence.aggregation.model";
+option java_outer_classname = "AggregationProto";
+
+import "event.proto";
+
+message Aggregation {
+  bytes id = 1;
+  repeated Event events = 2;
+}
