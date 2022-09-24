@@ -1,6 +1,7 @@
 package com.nuvalence.aggregation.kstream;
 
 import com.nuvalence.aggregation.KafkaAggregationApplication;
+import com.nuvalence.aggregation.models.Event;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,29 +18,31 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = KafkaAggregationApplication.class)
+@SpringBootTest(classes = {KafkaAggregationApplication.class, TestConfig.class})
 @EmbeddedKafka(
         partitions = 1,
 		topics = {
-				"${topology.inputTopicName}",
-				"${topology.outputTopicName}"
+                "${topology.inputTopicName}",
+                "${topology.aggregatedTopicName}",
+                "${topology.lostTopicName}"
 		},
         brokerPropertiesLocation = "classpath:/broker.properties")
 public class TopologyTest {
     @Autowired
-    private KafkaTemplate<Integer, String> kafkaTemplate;
+    private KafkaTemplate<UUID, Event> kafkaTemplate;
 
     @Autowired
-    private CompletableFuture<ConsumerRecord<?, String>> resultFuture;
+    private CompletableFuture<ConsumerRecord<UUID, Event>> resultFuture;
 
     @Test
     public void testKStreams() throws ExecutionException, InterruptedException, TimeoutException {
-        String myUUID = UUID.randomUUID().toString();
-        this.kafkaTemplate.sendDefault(0, myUUID);
-        ConsumerRecord<?, String> result = resultFuture.get(600, TimeUnit.SECONDS);
+        UUID myUUID = UUID.randomUUID();
+        Event myEvent = new Event(myUUID, Event.Type.CONTINUING, "Hello, World!");
+        this.kafkaTemplate.sendDefault(myUUID, myEvent);
+        ConsumerRecord<UUID, Event> result = resultFuture.get(600, TimeUnit.SECONDS);
 
         assertNotNull(result);
-        assertEquals("outtopic", result.topic());
-        assertEquals(myUUID, result.value());
+        assertEquals(myUUID, result.key());
+        assertEquals(myEvent, result.value());
     }
 }

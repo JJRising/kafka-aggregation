@@ -1,11 +1,14 @@
 topology:
-  inputTopicName: intopic
-  outputTopicName: outtopic
+  inputTopicName: events
+  aggregatedTopicName: aggregated-events
+  lostTopicName: lost-events
+  schemaRegistryBaseUrl: "mock://fake"
 
 kafka:
   properties:
     "[application.id]": "aggregator"
     "[bootstrap.servers]": ${spring.embedded.kafka.brokers}
+    "[schema.registry.url]": "mock://fake"
 
 spring:
   cloud:
@@ -13,3 +16,5 @@ spring:
       enabled: false
       config:
         enabled: false
+  main:
+    allow-bean-definition-overriding: true

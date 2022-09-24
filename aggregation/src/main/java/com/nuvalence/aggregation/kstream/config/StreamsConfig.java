@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Stream;
 
+import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG;
 
@@ -33,6 +34,7 @@ public class StreamsConfig {
         Properties ret = Stream.of(properties).collect(Properties::new, Map::putAll, Map::putAll);
         ret.put(DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Integer().getClass());
         ret.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        ret.put(SCHEMA_REGISTRY_URL_CONFIG, "mock://fake");
         return ret;
     }
 }

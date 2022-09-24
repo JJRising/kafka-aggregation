@@ -52,7 +52,7 @@ public class TestConfig {
         return new CompletableFuture<>();
     }
 
-    @KafkaListener(topics = "${topology.outputTopicName:aggregated-states}")
+    @KafkaListener(topics = "${topology.lostTopicName:aggregated-states}")
     public void listener(ConsumerRecord<?, String> payload) {
         resultFuture().complete(payload);
     }

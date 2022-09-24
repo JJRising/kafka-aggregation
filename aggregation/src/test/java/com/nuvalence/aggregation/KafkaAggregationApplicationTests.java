@@ -9,7 +9,8 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 		partitions = 1,
 		topics = {
 				"${topology.inputTopicName}",
-				"${topology.outputTopicName}"
+				"${topology.aggregatedTopicName}",
+				"${topology.lostTopicName}"
 		},
 		brokerPropertiesLocation = "classpath:/broker.properties")
 class KafkaAggregationApplicationTests {
