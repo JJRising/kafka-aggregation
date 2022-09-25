@@ -8,13 +8,16 @@ import org.apache.kafka.streams.processor.api.Record;
 
 import java.util.UUID;
 
+/**
+ * This simple class converts the Aggregation that was wrapped and outputted by the
+ * AggregationProcessor back to a standalone event.
+ */
 public class LostTransformer implements Processor<UUID, Aggregation, UUID, Event> {
 
     private ProcessorContext<UUID, Event> context;
 
     @Override
     public void init(ProcessorContext<UUID, Event> context) {
-        Processor.super.init(context);
         this.context = context;
     }
 

@@ -1,6 +1,7 @@
 package com.nuvalence.aggregation.kstream;
 
 import com.nuvalence.aggregation.KafkaAggregationApplication;
+import com.nuvalence.aggregation.TestConfig;
 import com.nuvalence.aggregation.model.Event;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;

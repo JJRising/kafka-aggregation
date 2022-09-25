@@ -7,8 +7,10 @@ option java_package = "com.nuvalence.aggregation.model";
 option java_outer_classname = "AggregationProto";
 
 import "event.proto";
+import "google/protobuf/timestamp.proto";
 
 message Aggregation {
   bytes id = 1;
-  repeated Event events = 2;
+  google.protobuf.Timestamp endTime = 2;
+  repeated Event events = 3;
 }

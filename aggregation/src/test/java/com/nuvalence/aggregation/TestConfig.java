@@ -1,4 +1,4 @@
-package com.nuvalence.aggregation.kstream;
+package com.nuvalence.aggregation;
 
 import com.nuvalence.aggregation.model.Event;
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;

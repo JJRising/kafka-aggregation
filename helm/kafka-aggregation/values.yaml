@@ -3,13 +3,18 @@ aggregation:
   enabled: false
   application:
     config:
-      topology:
-        inputTopicName: intopic
-        outputTopicName: outtopic
-      kafka:
+      kafka-topology:
+        inputTopicName: events
+        aggregatedTopicName: aggregated-events
+        lostTopicName: lost-events
+        schemaRegistryBaseUrl: "http://schema-registry-headless.default.svc.cluster.local:8081"
+        aggregation-processor:
+          expiryProcessIntervalSeconds: 1
         properties:
           "[application.id]": "aggregator"
           "[bootstrap.servers]": "kafka.default.svc.cluster.local:9092"
+          "[schema.registry.url]": "http://schema-registry-headless.default.svc.cluster.local:8081"
+          "[auto.register.schemas]": true
   image:
     repository: ghcr.io/jjrising/kafka-aggregation/aggregation
     tag: latest
