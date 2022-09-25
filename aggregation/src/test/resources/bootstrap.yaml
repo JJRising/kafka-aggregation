@@ -1,10 +1,8 @@
-topology:
+kafka-topology:
   inputTopicName: events
   aggregatedTopicName: aggregated-events
   lostTopicName: lost-events
   schemaRegistryBaseUrl: "mock://fake"
-
-kafka:
   properties:
     "[application.id]": "aggregator"
     "[bootstrap.servers]": ${spring.embedded.kafka.brokers}

@@ -23,9 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @EmbeddedKafka(
         partitions = 1,
 		topics = {
-                "${topology.inputTopicName}",
-                "${topology.aggregatedTopicName}",
-                "${topology.lostTopicName}"
+                "${kafka-topology.inputTopicName}",
+                "${kafka-topology.aggregatedTopicName}",
+                "${kafka-topology.lostTopicName}"
 		},
         brokerPropertiesLocation = "classpath:/broker.properties")
 public class TopologyTest {

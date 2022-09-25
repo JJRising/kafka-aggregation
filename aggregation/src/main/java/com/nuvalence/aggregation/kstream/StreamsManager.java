@@ -1,6 +1,6 @@
 package com.nuvalence.aggregation.kstream;
 
-import com.nuvalence.aggregation.kstream.config.StreamsProperties;
+import com.nuvalence.aggregation.kstream.config.TopologyConfig;
 import com.nuvalence.aggregation.kstream.topology.TopologyBuilder;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
@@ -19,16 +19,16 @@ public class StreamsManager {
     private static final Logger logger = LoggerFactory.getLogger(StreamsManager.class);
 
     private final TopologyBuilder topologyBuilder;
-    private final StreamsProperties streamsProperties;
+    private final TopologyConfig topologyConfig;
     private final StreamsConfig streamsConfig;
 
     private KafkaStreams streams;
 
     public StreamsManager(TopologyBuilder topologyBuilder,
-                          StreamsProperties streamsProperties,
+                          TopologyConfig topologyConfig,
                           StreamsConfig streamsConfig) {
         this.topologyBuilder = topologyBuilder;
-        this.streamsProperties = streamsProperties;
+        this.topologyConfig = topologyConfig;
         this.streamsConfig = streamsConfig;
     }
 
@@ -52,9 +52,9 @@ public class StreamsManager {
             logger.error(
                     String.format("An exception was thrown within the Streams thread. " +
                             "Performing configured behaviour: %s",
-                            streamsProperties.getStreamThreadExceptionResponse().name),
+                            topologyConfig.getStreamThreadExceptionResponse().name),
                     throwable);
-            return streamsProperties.getStreamThreadExceptionResponse();
+            return topologyConfig.getStreamThreadExceptionResponse();
         };
     }
 }

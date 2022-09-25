@@ -85,7 +85,7 @@ public class TestConfig {
         return new CompletableFuture<>();
     }
 
-    @KafkaListener(topics = "${topology.lostTopicName}")
+    @KafkaListener(topics = "${kafka-topology.lostTopicName}")
     public void listener(ConsumerRecord<UUID, Event> payload) {
         resultFuture().complete(payload);
     }
