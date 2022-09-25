@@ -3,8 +3,10 @@ package com.nuvalence.aggregation.kstream.config;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
@@ -21,7 +23,7 @@ import static org.apache.kafka.streams.StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_C
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "kafka")
-public class StreamsConfig {
+public class StreamsProperties {
 
     // Kafka-native configs
     private Map<String, String> properties = new HashMap<>();
@@ -36,5 +38,14 @@ public class StreamsConfig {
         ret.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         ret.put(SCHEMA_REGISTRY_URL_CONFIG, "mock://fake");
         return ret;
+    }
+
+    @Bean
+    public StreamsConfig streamsConfig() {
+        Properties ret = Stream.of(properties).collect(Properties::new, Map::putAll, Map::putAll);
+        ret.put(DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Integer().getClass());
+        ret.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        ret.put(SCHEMA_REGISTRY_URL_CONFIG, "mock://fake");
+        return new StreamsConfig(ret);
     }
 }

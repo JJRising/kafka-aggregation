@@ -7,7 +7,6 @@ import org.apache.kafka.streams.processor.api.Processor;
 import org.apache.kafka.streams.processor.api.ProcessorContext;
 import org.apache.kafka.streams.processor.api.Record;
 
-import java.util.Collections;
 import java.util.UUID;
 
 import static com.nuvalence.aggregation.utils.UUIDUtils.bytesFromUUID;
@@ -33,11 +32,14 @@ public class AggregationProcessor implements Processor<UUID, Event, UUID, Aggreg
         // Continue events that do not have a store entry are pushed as Lost
         Record<UUID, Aggregation> output = new Record<>(
                 record.key(),
-                Aggregation.newBuilder().setId(bytesFromUUID(record.key())).setEvents(0,record.value()).build(),
+                Aggregation.newBuilder()
+                        .setId(bytesFromUUID(record.key()))
+                        .addEvents(record.value())
+                        .build(),
                 record.timestamp(),
                 record.headers()
         );
-        context.forward(output, TopologyBuilder.LOST_SINK);
+        context.forward(output, TopologyBuilder.LOST_TRANSFORMER);
     }
 
     @Override

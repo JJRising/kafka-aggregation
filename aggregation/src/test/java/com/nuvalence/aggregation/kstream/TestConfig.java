@@ -3,8 +3,8 @@ package com.nuvalence.aggregation.kstream;
 import com.nuvalence.aggregation.model.Event;
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.testutil.MockSchemaRegistry;
-import io.confluent.kafka.serializers.json.KafkaJsonSchemaDeserializer;
-import io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializer;
+import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer;
+import io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -51,7 +51,7 @@ public class TestConfig {
     public Map<String, Object> producerConfigs() {
         Map<String, Object> ret =  KafkaTestUtils.producerProps(brokerAddresses);
         ret.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, UUIDSerializer.class);
-        ret.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaJsonSchemaSerializer.class);
+        ret.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaProtobufSerializer.class);
         ret.put("schema.registry.url", "mock://fake");
         return ret;
     }
@@ -60,7 +60,7 @@ public class TestConfig {
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> ret = KafkaTestUtils.consumerProps(this.brokerAddresses, "testGroup", "false");
         ret.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, UUIDDeserializer.class);
-        ret.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaJsonSchemaDeserializer.class);
+        ret.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaProtobufDeserializer.class);
         ret.put("schema.registry.url", "mock://fake");
         return ret;
     }

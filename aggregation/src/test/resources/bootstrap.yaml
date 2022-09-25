@@ -9,6 +9,7 @@ kafka:
     "[application.id]": "aggregator"
     "[bootstrap.servers]": ${spring.embedded.kafka.brokers}
     "[schema.registry.url]": "mock://fake"
+    "[auto.register.schemas]": true
 
 spring:
   cloud:

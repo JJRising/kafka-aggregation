@@ -1,8 +1,9 @@
 package com.nuvalence.aggregation.kstream;
 
-import com.nuvalence.aggregation.kstream.config.StreamsConfig;
+import com.nuvalence.aggregation.kstream.config.StreamsProperties;
 import com.nuvalence.aggregation.kstream.topology.TopologyBuilder;
 import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler;
 import org.slf4j.Logger;
@@ -18,19 +19,23 @@ public class StreamsManager {
     private static final Logger logger = LoggerFactory.getLogger(StreamsManager.class);
 
     private final TopologyBuilder topologyBuilder;
-    private final StreamsConfig streamsProperties;
+    private final StreamsProperties streamsProperties;
+    private final StreamsConfig streamsConfig;
 
     private KafkaStreams streams;
 
-    public StreamsManager(TopologyBuilder topologyBuilder, StreamsConfig streamsProperties) {
+    public StreamsManager(TopologyBuilder topologyBuilder,
+                          StreamsProperties streamsProperties,
+                          StreamsConfig streamsConfig) {
         this.topologyBuilder = topologyBuilder;
         this.streamsProperties = streamsProperties;
+        this.streamsConfig = streamsConfig;
     }
 
     @PostConstruct
     private void init() {
         Topology topology = topologyBuilder.constructAggregationTopology();
-        streams = new KafkaStreams(topology, streamsProperties.getKafkaProperties());
+        streams = new KafkaStreams(topology, streamsConfig);
         streams.setUncaughtExceptionHandler(uncaughtExceptionHandler());
         streams.start();
         logger.info("Started Kafka Streams.");
