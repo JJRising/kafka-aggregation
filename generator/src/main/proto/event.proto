@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package aggregation;
+
+option java_multiple_files = true;
+option java_package = "com.nuvalence.aggregation.model";
+option java_outer_classname = "EventProto";
+
+import "google/protobuf/duration.proto";
+
+message Event {
+  enum TYPE{
+    INITIALIZING = 0;
+    CONTINUING = 1;
+    TERMINATING = 2;
+  }
+
+  bytes id = 1;
+  TYPE type = 2;
+  string message = 3;
+  google.protobuf.Duration ttl = 4;
+}

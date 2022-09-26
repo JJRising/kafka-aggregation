@@ -1,6 +1,6 @@
 
 aggregation:
-  enabled: false
+  enabled: true
   application:
     config:
       kafka-topology:
@@ -53,7 +53,7 @@ connector:
   heapOptions: "-Xms512M -Xmx512M"
 
 generator:
-  enabled: true
+  enabled: false
   application:
     config:
       spring:
@@ -85,10 +85,13 @@ kafka:
     enabled: true
     numPartitions: 12
     topics:
-      - name: intopic
+      - name: events
         partitions: 12
         replicationFactor: 1
-      - name: outtopic
+      - name: aggregated-events
+        partitions: 12
+        replicationFactor: 1
+      - name: lost-events
         partitions: 12
         replicationFactor: 1
 

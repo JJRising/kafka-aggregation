@@ -1,5 +1,7 @@
 package com.nuvalence.generator.kafka;
 
+import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
+import io.confluent.kafka.schemaregistry.testutil.MockSchemaRegistry;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -21,6 +23,11 @@ public class TestConfig {
 
     @Value("${" + EmbeddedKafkaBroker.SPRING_EMBEDDED_KAFKA_BROKERS + "}")
     private String brokerAddresses;
+
+    @Bean(name = "schemaRegistryClient")
+    public SchemaRegistryClient schemaRegistryClient() {
+        return MockSchemaRegistry.getClientForScope("fake");
+    }
 
     @Bean
     public Map<String, Object> producerConfigs() {
