@@ -7,13 +7,13 @@ aggregation:
         inputTopicName: events
         aggregatedTopicName: aggregated-events
         lostTopicName: lost-events
-        schemaRegistryBaseUrl: "http://schema-registry-headless.default.svc.cluster.local:8081"
+        schemaRegistryBaseUrl: "http://schema-registry.default.svc.cluster.local:8081"
         aggregation-processor:
           expiryProcessIntervalSeconds: 1
         properties:
           "[application.id]": "aggregator"
           "[bootstrap.servers]": "kafka.default.svc.cluster.local:9092"
-          "[schema.registry.url]": "http://schema-registry-headless.default.svc.cluster.local:8081"
+          "[schema.registry.url]": "http://schema-registry.default.svc.cluster.local:8081"
           "[auto.register.schemas]": true
   image:
     repository: ghcr.io/jjrising/kafka-aggregation/aggregation
@@ -53,9 +53,12 @@ connector:
   heapOptions: "-Xms512M -Xmx512M"
 
 generator:
-  enabled: false
+  enabled: true
   application:
     config:
+      topology:
+        topic: events
+        schemaRegistryBaseUrl: "http://schema-registry.default.svc.cluster.local:8081"
       spring:
         kafka:
           bootstrap-servers: "kafka.default.svc.cluster.local:9092"

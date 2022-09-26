@@ -1,6 +1,5 @@
 package com.nuvalence.aggregation.kstream.processor;
 
-import com.google.protobuf.Duration;
 import com.nuvalence.aggregation.model.Aggregation;
 import com.nuvalence.aggregation.model.Event;
 import org.apache.kafka.streams.processor.api.MockProcessorContext;
@@ -33,7 +32,7 @@ class LostTransformerTest {
         UUID myUUID = UUID.randomUUID();
         Event event = Event.newBuilder()
                 .setId(bytesFromUUID(myUUID))
-                .setTtl(Duration.newBuilder().setSeconds(21L).setNanos(123).build())
+                .setTtl(Event.Duration.newBuilder().setSeconds(21L).setNanos(123).build())
                 .setMessage("Hello, World!")
                 .build();
         Aggregation aggregation = Aggregation.newBuilder()

@@ -1,7 +1,6 @@
 package com.nuvalence.generator.kafka;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.Duration;
 import com.nuvalence.aggregation.model.Event;
 import com.nuvalence.generator.kafka.config.TopologyConfig;
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
@@ -67,7 +66,7 @@ public class KafkaGenerator {
         Event initEvent = Event.newBuilder()
                 .setId(bytesFromUUID(myUUID))
                 .setType(Event.TYPE.INITIALIZING)
-                .setTtl(Duration.newBuilder().setSeconds(60).build())
+                .setTtl(Event.Duration.newBuilder().setSeconds(60).build())
                 .setMessage(String.format("Init message created at %s, with nano %d",
                         Instant.now().toString(), Instant.now().getNano()))
                 .build();
