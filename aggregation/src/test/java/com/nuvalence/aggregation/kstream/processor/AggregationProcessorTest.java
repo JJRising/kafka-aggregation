@@ -1,7 +1,6 @@
 package com.nuvalence.aggregation.kstream.processor;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.Duration;
 import com.nuvalence.aggregation.kstream.processor.config.AggregationProcessorConfig;
 import com.nuvalence.aggregation.kstream.topology.TopologyBuilder;
 import com.nuvalence.aggregation.model.Aggregation;
@@ -19,10 +18,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
 
 import static com.nuvalence.aggregation.utils.UUIDUtils.bytesFromUUID;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class AggregationProcessorTest {
 
@@ -64,7 +66,7 @@ class AggregationProcessorTest {
         Event initEvent = Event.newBuilder()
                 .setId(myUUIDbytes)
                 .setType(Event.TYPE.INITIALIZING)
-                .setTtl(Duration.newBuilder().setSeconds(300).build())
+                .setTtl(Event.Duration.newBuilder().setSeconds(300).build())
                 .setMessage("Started a new Aggregation")
                 .build();
         Record<UUID, Event> initRecord = new Record<>(myUUID, initEvent, Instant.now().toEpochMilli());
@@ -72,7 +74,7 @@ class AggregationProcessorTest {
         Event continueEvent = Event.newBuilder()
                 .setId(myUUIDbytes)
                 .setType(Event.TYPE.CONTINUING)
-                .setTtl(Duration.newBuilder().setSeconds(300).build())
+                .setTtl(Event.Duration.newBuilder().setSeconds(300).build())
                 .setMessage("Continue the aggregation")
                 .build();
         Record<UUID, Event> continueRecord = new Record<>(myUUID, continueEvent, Instant.now().toEpochMilli());
@@ -80,7 +82,7 @@ class AggregationProcessorTest {
         Event terminalEvent = Event.newBuilder()
                 .setId(myUUIDbytes)
                 .setType(Event.TYPE.TERMINATING)
-                .setTtl(Duration.newBuilder().setSeconds(300).build())
+                .setTtl(Event.Duration.newBuilder().setSeconds(300).build())
                 .setMessage("Finish the aggregation")
                 .build();
         Record<UUID, Event> terminalRecord = new Record<>(myUUID, terminalEvent, Instant.now().toEpochMilli());

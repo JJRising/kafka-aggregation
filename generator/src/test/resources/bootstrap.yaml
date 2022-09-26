@@ -1,3 +1,7 @@
+topology:
+  topic: events
+  schemaRegistryBaseUrl: "mock://fake"
+
 spring:
   cloud:
     kubernetes:
