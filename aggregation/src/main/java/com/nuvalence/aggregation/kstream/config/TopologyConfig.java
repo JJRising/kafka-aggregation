@@ -2,6 +2,7 @@ package com.nuvalence.aggregation.kstream.config;
 
 import io.confluent.kafka.schemaregistry.client.CachedSchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
+import io.confluent.kafka.schemaregistry.protobuf.ProtobufSchemaProvider;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.kafka.streams.StreamsConfig;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -35,8 +37,11 @@ public class TopologyConfig {
             StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse.REPLACE_THREAD;
 
     @Bean(name = "schemaRegistryClient")
-    public SchemaRegistryClient schemaRegistryClient() {
-        return new CachedSchemaRegistryClient(schemaRegistryBaseUrl, schemaRegistryClientCacheCapacity);
+    public SchemaRegistryClient schemaRegistryClient(StreamsConfig streamsConfig) {
+        return new CachedSchemaRegistryClient(schemaRegistryBaseUrl,
+                schemaRegistryClientCacheCapacity,
+                Collections.singletonList(new ProtobufSchemaProvider()),
+                streamsConfig.originals());
     }
 
     @Bean
