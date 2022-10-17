@@ -1,5 +1,6 @@
 package com.nuvalence.aggregation.kstream.processor;
 
+import com.google.protobuf.Timestamp;
 import com.nuvalence.aggregation.kstream.processor.config.AggregationProcessorConfig;
 import com.nuvalence.aggregation.kstream.topology.TopologyBuilder;
 import com.nuvalence.aggregation.model.Aggregation;
@@ -110,7 +111,7 @@ public class AggregationProcessor implements Processor<UUID, Event, UUID, Aggreg
 
     private Aggregation newAggregation(Event event) {
         Instant now = Instant.now();
-        Aggregation.Timestamp endTime = Aggregation.Timestamp.newBuilder()
+        Timestamp endTime = Timestamp.newBuilder()
                 .setSeconds(now.getEpochSecond() + event.getTtl().getSeconds())
                 .setNanos(now.getNano() + event.getTtl().getNanos())
                 .build();
